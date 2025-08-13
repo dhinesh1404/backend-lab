@@ -47,6 +47,6 @@
         echo "DB error.$e";
     }
     // Close the DB connection
-    $db_conn->clos();
+    $db_conn->close();
 
 ?>

@@ -22,14 +22,14 @@
     <title>Welcome</title>
 </head>
 <body>
-    Hello! <?php echo $row['name']."($row[username])"; ?>
+    Hello! <?php echo $row['username']; ?>
 
     <h2>Welcome Page</h2>
     <form>
         <fieldset>
             <legend>Login Successful</legend>
-            <p>Welcome</p>
-            <p>You are logged in as.</p>
+            <p><strong>Welcome <?php echo $row['name'];?> nice to meet you!!!</strong></p>
+            <p><strong>You are successfully logged in.</strong></p>
             <a href="logout.php">Logout</a>
         </fieldset>
     </form>

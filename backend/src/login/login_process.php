@@ -32,7 +32,7 @@
         $row = $result->fetch_assoc();  // [id : 3, username : root, password : hash, name : gsc]
         
         if(!$row) {
-            header("refresh:2; URL= 'login.php'");
+            header("refresh:2; URL = 'login.php'");
             echo "ID and Password does not exist";
             exit;
         }else {
@@ -47,6 +47,6 @@
         echo "DB error.$e";
     }
     // Close the DB connection
-    $db_conn->clos();
+    $db_conn->close();
 
 ?>

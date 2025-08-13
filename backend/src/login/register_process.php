@@ -31,7 +31,7 @@
         $db_conn = new mysqli($hostname, $userid, $password, $database);
 
         // Password hashing
-        $password = password_hash($password);
+        $password = password_hash($password, PASSWORD_DEFAULT);
 
         // Write SQL statement (INSERT)
         $sql = "insert into users (username, password, name) values('$username', '$password', '$name');";

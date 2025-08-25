@@ -1,0 +1,1 @@
+INSERT INTO board (name, account, title, content) VALUES ('dbstjdqls', 'dbstjdqls', 'dbstjdqls', 'dbstjdqls');

@@ -1,122 +1,115 @@
 <?php
 
-    // 페이지네이션
-    $limit = 5;    // 한 페이지 당 게시글 개수
-    $page = isset($_GET['page']) ? $_GET['page'] : 1;    // 현재 페이지
-    $offset = ($page - 1) * $limit;    // offset
+    // Pagination
+    $limit = 5;    // Number of posts per page
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;    // Current page
+    $offset = ($page - 1) * $limit;    // Offset
 
-    // 검색
+    // Search
     $search_type = isset($_GET['search_type']) ? $_GET['search_type'] : 'title';
     $search_query = isset($_GET['search_query']) ? trim($_GET['search_query']) : '';
 
-    // 검색 조건 설정(검색 타입 LIKE 검색 쿼리)
+    // Set search condition (LIKE query based on search type)
     $where = '';
     if (!empty($search_query)) {
         $where = "WHERE $search_type LIKE '%$search_query%'";
     }
 
-    // 로그인 정보 불러오기
+    // Load login information
     require_once "./header.php";
 
-    // 데이터베이스 연결
+    // Database connection
     try {
-        // 데이터베이스 연결
         require_once "./db_connect.php";
 
-        // sql문 작성 (SELECT)
+        // SQL statement (SELECT)
         $sql = "SELECT * FROM board $where ORDER BY created_at DESC LIMIT $limit OFFSET $offset;";
 
-        // 쿼리 실행
+        // Execute query
         $result = $db_conn->query($sql);
 
-        // 전체 게시글 개수
+        // Total number of posts
         $sql_num = "SELECT COUNT(*) AS total FROM board $where";
         $result_num = $db_conn->query($sql_num);
         $row_num = $result_num->fetch_assoc();
         $total = $row_num['total'];
         $totalPage = ceil($total / $limit);
 
-        $pagesPerBlock = 5;    // 한 블록 당 페이지 수
+        $pagesPerBlock = 5;    // Pages per block
         $currentBlock = ceil($page / $pagesPerBlock);
         $startPage = ($currentBlock - 1) * $pagesPerBlock + 1;
-        $endPage = min($currentBlock * $pagesPerBlock,$totalPage);
+        $endPage = min($currentBlock * $pagesPerBlock, $totalPage);
 
     } catch (Exception $e) {
-        // DB 관련 오류 메시지 출력
-        echo "DB 오류<br>".$e ;
+        // Display DB error message
+        echo "Database error<br>".$e ;
     }
 
-    // 데이터베이스 종료
+    // Close database connection
     $db_conn->close();
 
 ?>
 
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판 목록</title>
-    
+    <title>Board List</title>
 </head>
 <body>
     <!--
-    안녕하세요! [사용자 이름(사용자 아이디)]님 "로그아웃(버튼)"
+    Hello! [User Name(User ID)] "Logout(button)"
 
-    게시판 목록
+    Board List
 
-    검색창 활성화
+    Activate search bar
 
-    Table 생성
-    번호 작성자 제목 작성일 수정일
-    
-    글쓰기 버튼 활성화 -> insert.php
+    Create table
+    No | Author | Title | Created At | Updated At
 
-    페이지네이션 활성화
+    Activate "Write Post" button -> insert.php
+
+    Enable pagination
     -->
-    <h1>게시판 목록</h1>
+    <h1>Board List</h1>
 
     <form action="index.php">
         <select name="search_type">
-            <option value="title">제목</option>
-            <option value="content">내용</option>
+            <option value="title">Title</option>
+            <option value="content">Content</option>
         </select>
 
         <input type="search" name="search_query">
 
-        <button>검색</button>   
+        <button>Search</button>   
     </form>
     <br>
     <?php
-
         if (!empty($search_query)) {
-            echo "현재 검색어(유형): ".$search_query."($search_type)<br>";
+            echo "Current search query (type): ".$search_query." ($search_type)<br>";
         }
-
     ?>
-    
     
     <table border="1">
         <tr>
-            <th>번호</th>
-            <th>작성자</th>
-            <th>제목</th>
-            <th>작성일</th>
-            <th>수정일</th>
+            <th>No</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Created At</th>
+            <th>Updated At</th>
         </tr>
 
         <?php
-
-            // 게시글 개수
+            // Post numbering
             $countPage = $total - $offset;
 
-            // DB board 테이블 출력
-            // 게시글이 없을 경우
+            // Display posts from DB board table
             if ($total <= 0) {
                 echo "<tr>";
-                echo "  <td colspan='5'>게시글이 없습니다.</td>";
+                echo "  <td colspan='5'>No posts available.</td>";
                 echo "</tr>";
-            } else {     // 게시글이 있을 경우
+            } else {
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "  <td>$countPage</td>";
@@ -131,11 +124,10 @@
             }
         ?>
     </table>
-    <button><a href="insert.php">글쓰기</a></button><br>
+    <button><a href="insert.php">Write Post</a></button><br>
 
     <?php
-
-        // 블록 단위 이동 (이전)
+        // Previous block
         $prevBlock = $startPage - 1;
 
         if ($page > 5) {
@@ -143,17 +135,16 @@
             echo "<a href='?page=$prevBlock&search_type=$search_type&search_query=$search_query'><</a> ";
         }
 
-        // 현재 페이지 표시
+        // Display current pages
         for ($i = $startPage ; $i <= $endPage ; $i++) {
-            // 현재 페이지 진하게 강조
             if ($i == $page) {
                 echo "<a href='?page=$i&search_type=$search_type&search_query=$search_query'><strong>$i</strong></a> ";
-            } else {    // 현재 페이지 이외 페이지는 연하게
+            } else {
                 echo "<a href='?page=$i&search_type=$search_type&search_query=$search_query'>$i</a> ";
             }
         }
 
-        // 블록 단위 이동 (이후)
+        // Next block
         $nextBlock = $endPage + 1;
 
         if (ceil($totalPage / $pagesPerBlock) != $currentBlock && !empty($total)) {

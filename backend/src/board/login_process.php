@@ -1,65 +1,64 @@
 <?php
 
-    // 입력값 유효성 검사
+    // Input validation
     $account = isset($_POST['account']) ? $_POST['account'] : '';
     $pw = isset($_POST['pw']) ? $_POST['pw'] : '';
 
-    // 유효하지 않는 입력값이 넘어올 경우
-    // 오류 메시지 출력 후 로그인 페이지 리다이렉션
+    // If invalid input is received
+    // Display error message and redirect to login page
     if (empty($account) || empty($pw)) {
         header("Refresh: 2; URL='login.html'");
-        echo "유효하지 않는 입력값입니다.";
+        echo "Invalid input values.";
         exit;
     }
 
-    // 세션 시작
+    // Start session
     session_start();
 
-    // 데이터베이스 연결 (try-catch문)
+    // Database connection (try-catch)
     try {
-        // 데이터베이스 연결
         require_once "./db_connect.php";
 
-        // sql문 작성 (SELECT) - 아이디, 비밀번호 비교를 위해
+        // SQL statement (SELECT) to verify account and password
         $sql = "SELECT * FROM login WHERE account='$account'";
 
-        // 쿼리 실행
+        // Execute query
         $result = $db_conn->query($sql);
 
-        // 아이디가 일치하지 않을 경우
-        // 오류 메시지 출력 후 로그인 페이지 리다이렉션
+        // If account does not exist
+        // Display error message and redirect to login page
         if ($result->num_rows <= 0) {
             header("Refresh: 2; URL='login.html'");
-            echo "아이디가 일치하지 않습니다.";
+            echo "Account does not exist.";
             exit;
-        } else {     // 아이디가 일치하는 경우
-            // 입력 비밀번호와 해싱 처리된 비밀번호 비교
+        } else {
+            // If account exists, compare input password with hashed password
             $row = $result->fetch_assoc();
 
-            // 비밀번호가 일치하지 않을 경우
-            // 오류 메시지 출력 후 로그인 페이지 리다이렉션
+            // If password does not match
+            // Display error message and redirect to login page
             if (!password_verify($pw, $row['pw'])) {
                 header("Refresh: 2; URL='login.html'");
-                echo "비밀번호가 일치하지 않습니다.";
+                echo "Password does not match.";
                 exit;
-            } else {    // 비밀번호가 일치하는 경우
-                // 세션 변수(name, account) 저장
-                // 로그인 성공 메시지 출력 후 게시판 목록 페이지 리다이렉션
+            } else {
+                // If password matches, store session variables (name, account)
+                // Display success message and redirect to board list page
                 $_SESSION['name'] = $row['name'];
                 $_SESSION['account'] = $row['account'];
                 header("Refresh: 2; URL='index.php'");
-                echo "로그인 성공!";
+                echo "Login successful!";
                 exit;
             }
         }
     } catch (Exception $e) {
-        // 데이터베이스 연결 실패 시
-        // 오류 메시지 출력 후 로그인 페이지 리다이렉션
+        // If database connection fails
+        // Display error message and redirect to login page
         header("Refresh: 2; URL='login.html'");
-        echo "DB 연결 실패". $e;
+        echo "Database connection failed: ".$e;
     }
 
-    // 데이터베이스 종료
+    // Close database connection
     $db_conn->close();
 
 ?>

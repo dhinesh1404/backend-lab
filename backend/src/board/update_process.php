@@ -1,57 +1,57 @@
 <?php
 
-    // id 값 유효성 검사
+    // Validate 'id' value
     $id = isset($_GET['id']) ? $_GET['id'] : '';
 
-    // 유효하지 않는 id 값이 넘어온 경우
-    // 유효하지 않는 id 값입니다. -> 해당 게시글 수정 페이지 리다이렉션
+    // If an invalid 'id' is received
+    // Display error message and redirect to the post update page
     if (empty($id)) {
         header("Refresh: 2; URL='update.php?id=$id'");
-        echo "유효하지 않는 id 값입니다.";
+        echo "Invalid id value.";
         exit;
     }
 
-    // 입력값 유효성 검사
+    // Input validation
     $title = isset($_POST['title']) ? $_POST['title'] : '';
     $content = isset($_POST['content']) ? $_POST['content'] : '';
 
-    // 유효하지 않는 입력값이 넘어온 경우
-    // 유효하지 않는 입력값입니다. -> 해당 게시글 수정 페이지 리다이렉션
+    // If invalid input values are received
+    // Display error message and redirect to the post update page
     if (empty($title) || empty($content)) {
         header("Refresh: 2; URL='update.php?id=$id'");
-        echo "유효하지 않는 입력값입니다.";
+        echo "Invalid input values.";
         exit;
     }
 
-    // 데이터베이스 연결
+    // Database connection
     try {
-        // 데이터베이스 연결
         require_once "./db_connect.php";
 
-        // sql문 작성 (INSERT)
+        // SQL statement (UPDATE)
         $sql = "UPDATE board SET title = '$title', content = '$content' WHERE id='$id'";
 
-        // 쿼리 실행
+        // Execute query
         $result = $db_conn->query($sql);
 
-        // 쿼리 실행 성공
-        // 수정 성공! -> 게시판 목록 페이지 리다이렉션
+        // If query execution is successful
+        // Display success message and redirect to board list page
         if ($result) {
             header("Refresh: 2; URL='index.php'");
-            echo "수정 성공!";
+            echo "Update successful!";
             exit;
-        } else {   // 쿼리 실행 실패
-            // 해당 게시글이 없습니다. -> 게시판 목록 페이지 리다이렉션
+        } else {   
+            // If query fails
+            // Display error message and redirect to board list page
             header("Refresh: 2; URL='index.php'");
-            echo "해당 게시글이 없습니다.";
+            echo "Post not found.";
             exit;
         }
     } catch (Exception $e) {
-        // DB 오류 메시지 출력 후 해당 게시글 수정 페이지 리다이렉션
+        // If DB error occurs
+        // Display error message and redirect to post update page
         header("Refresh: 10; URL='update.php?id=$id'");
-        echo "DB 오류<br>".$e;
+        echo "Database error<br>".$e;
     }
-
-    // 데이터베이스 종료
+    // Close database connection
     $db_conn->close();
 ?>

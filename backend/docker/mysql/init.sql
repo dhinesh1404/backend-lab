@@ -1,34 +1,37 @@
--- 데이터베이스 생성 (존재하지 않으면)
+-- Create the database (if it does not already exist)
 CREATE DATABASE IF NOT EXISTS gsc CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
--- gsc 데이터베이스 사용
+-- Use the gsc database
 USE gsc;
 
--- student 테이블 생성
+-- Create the student table
 CREATE TABLE IF NOT EXISTS student (
-    no INT AUTO_INCREMENT PRIMARY KEY,           -- 순번 (자동 증가)
-    std_id VARCHAR(20) NOT NULL UNIQUE,          -- 학번 (유일)
-    id VARCHAR(20) NOT NULL UNIQUE,              -- 로그인 ID (유일)
-    password VARCHAR(100) NOT NULL,              -- 비밀번호 (해싱 필요)
-    name VARCHAR(50) NOT NULL,                   -- 이름
-    age INT,                                      -- 나이
-    birth DATE                                    -- 생년월일
+    no INT AUTO_INCREMENT PRIMARY KEY,           -- Number (auto increment)
+    std_id VARCHAR(20) NOT NULL UNIQUE,          -- Student ID (unique)
+    id VARCHAR(20) NOT NULL UNIQUE,              -- Login ID (unique)
+    password VARCHAR(100) NOT NULL,              -- Password (should be hashed)
+    name VARCHAR(50) NOT NULL,                   -- Name
+    age INT,                                     -- Age
+    birth DATE                                   -- Date of Birth
 );
 
 
--- -- 데이터베이스 생성
+-- Example of another database setup (commented out)
+
+-- Create database
 -- CREATE DATABASE IF NOT EXISTS myapp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- -- 사용자 생성 (비밀번호는 'password123')
+-- Create user (password is 'password123')
 -- CREATE USER IF NOT EXISTS 'myuser'@'%' IDENTIFIED BY 'password123';
 
--- -- 권한 부여
+-- Grant privileges
 -- GRANT ALL PRIVILEGES ON myapp.* TO 'myuser'@'%';
 -- FLUSH PRIVILEGES;
 
--- -- 테이블 생성
+-- Use the myapp database
 -- USE myapp;
 
+-- Create the users table
 -- CREATE TABLE IF NOT EXISTS users (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     username VARCHAR(50) NOT NULL UNIQUE,
@@ -36,7 +39,7 @@ CREATE TABLE IF NOT EXISTS student (
 --     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
--- -- 초기 데이터 삽입
+-- Insert initial data
 -- INSERT INTO users (username, email) VALUES
 -- ('alice', 'alice@example.com'),
 -- ('bob', 'bob@example.com');

@@ -60,9 +60,9 @@
     } catch (Exception $e) {
         // If database connection fails
         // Display error message and redirect to registration page
-        header("Refresh: 2; URL='register.html'");
-        echo "Database connection failed.";
+        // header("Refresh: 2; URL='register.html'");
+        echo "Database connection failed.<br>".$e;
     }
-    // Close database connection
+    // close db connection
     $db_conn->close();
 ?>

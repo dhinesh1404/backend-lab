@@ -20,7 +20,7 @@
         require_once "./db_connect.php";
 
         // SQL statement (INSERT)
-        $sql = "INSERT INTO board (name, account, title, content) VALUES ('$_SESSION[name]', '$_SESSION[account]', '$title', '$content');";
+        $sql = "INSERT INTO board (name, title, content) VALUES ('$_SESSION[name]', '$title', '$content');";
 
         // Execute query
         $result = $db_conn->query($sql);
@@ -33,8 +33,8 @@
     } catch (Exception $e) {
         // If database connection fails
         // Display error message and redirect to write post page
-        header("Refresh: 2; URL='insert.php'");
-        echo "Database connection failed.";
+        // header("Refresh: 2; URL='insert.php'");
+        echo "Database connection failed.<br>".$e;
     }
 
     // Close database connection

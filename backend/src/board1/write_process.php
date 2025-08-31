@@ -1,7 +1,7 @@
 <?php
 
    // start a session
-   $session_start();
+   session_start();
    
    // db address
    require_once "./db_config.php";

@@ -2,6 +2,9 @@
     require_once "./db_config.php";
     session_start();
 
+    // id validation
+    $id = isset($_GET['id'])? $_GET['id']:'';
+
 try{
 
     // db connection

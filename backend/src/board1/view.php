@@ -3,13 +3,13 @@ session_start();
 
     // id validation
     if( !isset($_GET['id']) || empty($_GET['id']) ){
-        echo "Invalid id value.";
         header("refresh: 2; URL = 'index.php'");
+        echo "Invalid id value.";
         exit;
     }
 try{
     // db connection
-    require_once "./db_config.php";
+    require_once "../login/db_config.php";
 
     // sql statement
     $sql = "SELECT * FROM board WHERE id = '".$_GET['id']."';";
@@ -23,14 +23,12 @@ try{
         $row = $result -> fetch_assoc();
     }
     // fetch result
-}catch(Exception $e)
-    echo "Database error<br>".$e;
+}catch(Exception $e) {
     header("refresh: 10; URL = 'index.php'");
+    echo "Database error<br>".$e;
     exit;
-
+}
     // db connection close
     $db_conn->close();
-
-    // login info load
-
+    
 ?>

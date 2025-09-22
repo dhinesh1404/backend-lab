@@ -4,5 +4,7 @@
     $hostname = 'db';
     $userid = 'root';
     $password = 'root';
-    $database = 'gsc';
+    $database = 'board';
+
+    $db_conn = new mysqli($hostname, $userid, $password, $database);
 ?>

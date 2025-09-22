@@ -28,8 +28,7 @@
     try{
         // Connect to the database
         require_once "./db_config.php";
-        $db_conn = new mysqli($hostname, $userid, $password, $database);
-
+        
         // Password hashing
         $password = password_hash($password, PASSWORD_DEFAULT);
 

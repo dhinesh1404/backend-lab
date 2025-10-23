@@ -99,7 +99,7 @@
 </table>
 </form>
     <!-- create a anchor for write -->
-    <a href="form.html">write</a>
+    <a href="form.html">write</a><br><br>
 <?php
     // search query
     $search = "search_type=$search_type&search_query=$search_query";
@@ -127,8 +127,6 @@
         echo "<a href='?page=$nextBlock&$search'>></a> ";
         echo "<a href='?page=$endPage&$search'>>></a> ";
     }
-    
-
 
 ?>
 </body>

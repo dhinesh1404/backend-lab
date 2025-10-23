@@ -105,11 +105,11 @@
     $search = "search_type=$search_type&search_query=$search_query";
 
     // previous block
-    $prevBlock = $startPage - 1;
+    $prevPage = $startPage - 1;
 
     if($currentBlock != 1){
         echo "<a href='?page=1&$search'><<<</a> ";
-        echo "<a href='?page=$prevBlock&$search'><</a> ";
+        echo "<a href='?page=$prevPage&$search'><</a> ";
     }
 
     for($i = $startPage; $i <= $endPage; $i++){

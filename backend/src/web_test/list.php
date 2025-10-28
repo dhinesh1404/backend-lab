@@ -77,6 +77,7 @@
         <tr>
             <td>id</td>
             <td>Name</td>
+            <td>Title</td>
             <td>Content</td>
             <td>Created_at</td>
         </tr>
@@ -90,7 +91,8 @@
         echo "<tr>";
         echo "<td>$row[id]</td>";
         echo "<td>$row[name]</td>";
-        echo "<td>$row[messageArea]</td>";
+        echo "<td>$row[title]</td>";
+        echo "<td><a href='read.php?id=$row[id]'>$row[messageArea]</a></td>";
         echo "<td>$row[created_at]</td>";
         echo "</tr>";
     }

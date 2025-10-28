@@ -1,10 +1,11 @@
 <?php
     // Recieve the data from the form through POST method
     $name = isset($_POST['Name']) ? ($_POST['Name']): '';
+    $title = isset($_POST['title']) ? ($_POST['title']): '';    
     $messageArea = isset($_POST['messageArea']) ? ($_POST['messageArea']): '';
 
     // validate the user input
-    if(empty($name) || empty($messageArea)) {
+    if(empty($name) || empty($title) || empty($messageArea)) {
         header("refresh: 2; URL= form.html");
         echo "Invalid input. Please go back and try again.";
         exit;
@@ -15,7 +16,7 @@
         require_once "./db_config.php";
 
         // sql statement
-        $sql = "INSERT INTO final (name, messageArea) VALUES ('$name', '$messageArea')";
+        $sql = "INSERT INTO final (name,title, messageArea) VALUES ('$name','$title', '$messageArea')";
 
         // Run the sql statement
         $result = $db_conn->query($sql);

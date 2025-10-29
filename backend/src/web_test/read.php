@@ -55,7 +55,7 @@
     <form action="review.php?id=<?= $id ?>" method= "post">
     <fieldset>
         <input type="text" name="name" placeholder= "Enter your name">
-        <input type="text" name="password" placeholder= "Enter your password"><br><br>
+        <input type="password" name="password" placeholder= "Enter your password"><br><br>
         <textarea type="text" name= "messageArea" placeholder= "Enter your comment"></textarea><br><br>
         <button>submit</button>
     </fieldset>
